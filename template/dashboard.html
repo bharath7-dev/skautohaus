@@ -1,0 +1,915 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - SK AutoHaus</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0A0A0A;
+            --bg-charcoal: #141414;
+            --bg-card: #1A1A1A;
+            --gold: #C8A97E;
+            --gold-light: #D9C09B;
+            --gold-dark: #A68B5B;
+            --text-primary: #fafaf9;
+            --text-secondary: #a8a29e;
+            --border: rgba(200, 169, 126, 0.15);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .admin-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: var(--bg-charcoal);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar.mobile-hidden {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-header {
+            padding: 24px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .sidebar-logo img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+        }
+
+        .sidebar-logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 20px 0;
+        }
+
+        .nav-section {
+            margin-bottom: 24px;
+        }
+
+        .nav-section-title {
+            padding: 0 20px 8px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(200, 169, 126, 0.1);
+            color: var(--gold);
+        }
+
+        .nav-link i {
+            width: 20px;
+            font-size: 1rem;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.full-width {
+            margin-left: 0;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: var(--bg-charcoal);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .top-bar-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .notification-icon {
+            position: relative;
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .notification-icon:hover {
+            color: var(--gold);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: var(--danger);
+            color: white;
+            font-size: 0.65rem;
+            padding: 2px 5px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--gold);
+            color: var(--bg-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .admin-name {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            padding: 32px 24px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--bg-charcoal);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .stat-card-title {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .stat-card-icon.gold {
+            background: rgba(200, 169, 126, 0.15);
+            color: var(--gold);
+        }
+
+        .stat-card-icon.success {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+
+        .stat-card-icon.warning {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning);
+        }
+
+        .stat-card-icon.danger {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+        }
+
+        .stat-card-icon.info {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--info);
+        }
+
+        .stat-card-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        /* Section */
+        .section {
+            background: var(--bg-charcoal);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--bg-dark);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(200, 169, 126, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+        }
+
+        .btn-outline:hover {
+            background: var(--gold);
+            color: var(--bg-dark);
+        }
+
+        /* Table */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--bg-card);
+        }
+
+        th {
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        tbody tr {
+            transition: background 0.2s;
+        }
+
+        tbody tr:hover {
+            background: var(--bg-card);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-pending {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning);
+        }
+
+        .badge-confirmed {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--info);
+        }
+
+        .badge-completed {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+
+        .badge-cancelled {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+        }
+
+        /* Schedule */
+        .schedule-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .schedule-item:hover {
+            border-color: var(--gold);
+        }
+
+        .schedule-time {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gold);
+            min-width: 80px;
+        }
+
+        .schedule-details {
+            flex: 1;
+        }
+
+        .schedule-vehicle {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .schedule-service {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--border);
+            margin-bottom: 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.mobile-visible {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .top-bar-title {
+                font-size: 1.25rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-name {
+                display: none;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .table-container {
+                overflow-x: scroll;
+            }
+        }
+
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+        }
+
+        .mobile-overlay.active {
+            display: block;
+        }
+
+        /* Messages */
+        .messages {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            max-width: 400px;
+        }
+
+        .alert {
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .alert-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .alert-error {
+            background: var(--danger);
+            color: white;
+        }
+
+        .alert-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .alert-info {
+            background: var(--info);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="sidebar-logo">
+                    <img src="{% static 'home/autohaus_logo.png' %}" alt="SK AutoHaus">
+                    <span class="sidebar-logo-text">SK AutoHaus</span>
+                </a>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Main</div>
+                    <a href="#" class="nav-link active">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="{% url 'bookings' %}" class="nav-link">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>Bookings</span>
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Calendar</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Management</div>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-tools"></i>
+                        <span>Services</span>
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>Customers</span>
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>Business Settings</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Site</div>
+                    <a href="{% url 'fnhome' %}" class="nav-link">
+                        <i class="fas fa-globe"></i>
+                        <span>View Website</span>
+                    </a>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="/admin/logout/" class="btn btn-outline" style="width: 100%; justify-content: center;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="top-bar-left">
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="top-bar-title">Dashboard</h1>
+                </div>
+
+                <div class="top-bar-right">
+                    <div class="notification-icon">
+                        <i class="fas fa-bell"></i>
+                        {% if pending_confirmations > 0 %}
+                        <span class="notification-badge">{{ pending_confirmations }}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="admin-user">
+                        <div class="admin-avatar">
+                            {{ user.username|slice:":1"|upper }}
+                        </div>
+                        <span class="admin-name">{{ user.username }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <div class="page-header">
+                    <h2 class="page-title">Dashboard Overview</h2>
+                    <p class="page-subtitle">Welcome back, Admin. Here's what's happening today.</p>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-title">Today's Bookings</span>
+                            <div class="stat-card-icon gold">
+                                <i class="fas fa-calendar-day"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-value">{{ todays_bookings }}</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-title">Pending</span>
+                            <div class="stat-card-icon warning">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-value">{{ pending_bookings }}</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-title">Confirmed</span>
+                            <div class="stat-card-icon info">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-value">{{ confirmed_bookings }}</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-title">Completed</span>
+                            <div class="stat-card-icon success">
+                                <i class="fas fa-check-double"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-value">{{ completed_bookings }}</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-title">Cancelled</span>
+                            <div class="stat-card-icon danger">
+                                <i class="fas fa-times-circle"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-value">{{ cancelled_bookings }}</div>
+                    </div>
+                </div>
+
+                <!-- Today's Schedule -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title">Today's Schedule</h3>
+                        <a href="#" class="btn btn-outline">
+                            <i class="fas fa-calendar"></i>
+                            View Calendar
+                        </a>
+                    </div>
+
+                    {% if todays_schedule %}
+                    <div class="schedule-list">
+                        {% for booking in todays_schedule %}
+                        <div class="schedule-item">
+                            <div class="schedule-time">{{ booking.booking_time|time:"h:i A" }}</div>
+                            <div class="schedule-details">
+                                <div class="schedule-vehicle">{{ booking.vehicle_make }} {{ booking.vehicle_model }}</div>
+                                <div class="schedule-service">{{ booking.service.name }} • {{ booking.customer_name }}</div>
+                            </div>
+                            <span class="badge badge-{{ booking.status }}">{{ booking.get_status_display }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-times"></i>
+                        <p>No bookings scheduled for today</p>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Recent Bookings -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title">Recent Bookings</h3>
+                        <a href="#" class="btn btn-primary">
+                            <i class="fas fa-list"></i>
+                            View All
+                        </a>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Booking ID</th>
+                                    <th>Customer</th>
+                                    <th>Phone</th>
+                                    <th>Vehicle</th>
+                                    <th>Service</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for booking in bookings %}
+                                <tr>
+                                    <td><strong>{{ booking.booking_id }}</strong></td>
+                                    <td>{{ booking.customer_name }}</td>
+                                    <td>{{ booking.customer_phone }}</td>
+                                    <td>{{ booking.vehicle_make }} {{ booking.vehicle_model }}</td>
+                                    <td>{{ booking.service.name }}</td>
+                                    <td>{{ booking.booking_date|date:"d M Y" }}</td>
+                                    <td>{{ booking.booking_time|time:"h:i A" }}</td>
+                                    <td>
+                                        <span class="badge badge-{{ booking.status }}">{{ booking.get_status_display }}</span>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'admin_booking_detail' booking.id %}" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.8rem;">
+                                            <i class="fas fa-eye"></i>
+                                            View
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="9" style="text-align: center; color: var(--text-secondary);">
+                                        No bookings yet
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            <i class="fas fa-check-circle"></i>
+            <span>{{ message }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <script>
+        // Mobile Menu Toggle
+        const sidebar = document.getElementById('sidebar');
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileOverlay = document.getElementById('mobileOverlay');
+        const mainContent = document.getElementById('mainContent');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('mobile-visible');
+            mobileOverlay.classList.toggle('active');
+            document.body.style.overflow = sidebar.classList.contains('mobile-visible') ? 'hidden' : '';
+        });
+
+        mobileOverlay.addEventListener('click', () => {
+            sidebar.classList.remove('mobile-visible');
+            mobileOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // Auto-hide messages after 5 seconds
+        setTimeout(() => {
+            const messages = document.querySelector('.messages');
+            if (messages) {
+                messages.style.opacity = '0';
+                messages.style.transition = 'opacity 0.5s';
+                setTimeout(() => messages.remove(), 500);
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

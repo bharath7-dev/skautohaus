@@ -1,0 +1,1613 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - SK AutoHaus | Premium Car Wash & Auto Care</title>
+    <meta name="description" content="Learn about SK AutoHaus - Professional automotive care focused on quality, precision and attention to detail.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Tailwind + Iconify -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                gold: '#C8A97E',
+                'gold-light': '#D9C09B',
+                'gold-dark': '#A68B5B',
+                dark: '#0A0A0A',
+                charcoal: '#141414',
+                brown: '#1C1510',
+              }
+            },
+            fontFamily: {
+              serif: ['Playfair Display', 'serif'],
+              sans: ['Inter', 'sans-serif'],
+            },
+            letterSpacing: {
+              tighter: '-0.04em',
+              tight: '-0.02em',
+              widest: '0.15em',
+            }
+          }
+        }
+      }
+    </script>
+
+    <style>
+        /* ========================================
+           RESET & BASE STYLES
+           ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gold: #C8A97E;
+            --light-gold: #D9C09B;
+            --dark-gold: #A68B5B;
+            --bg-dark: #0A0A0A;
+            --bg-charcoal: #141414;
+            --bg-light-charcoal: #1A1A1A;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ========================================
+           SCROLLBAR
+           ======================================== */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0A0A0A;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #C8A97E;
+            border-radius: 3px;
+        }
+
+        /* ========================================
+           LOGO
+           ======================================== */
+        .logo-img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        @media (min-width: 768px) {
+            .logo-img {
+                height: 44px;
+            }
+        }
+
+        /* ========================================
+           NAVBAR
+           ======================================== */
+        .nav-solid {
+            background: rgba(10, 10, 10, 0.95) !important;
+            backdrop-filter: blur(16px) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+        }
+
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        .mobile-overlay {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .mobile-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* ========================================
+           BUTTONS & BADGES
+           ======================================== */
+        .btn-gold {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #C8A97E, #A68B5B);
+            color: #0A0A0A;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(200, 169, 126, 0.4);
+        }
+
+        .btn-outline-gold {
+            display: inline-block;
+            padding: 15px 40px;
+            background: transparent;
+            color: #C8A97E;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 2px solid #C8A97E;
+        }
+
+        .btn-outline-gold:hover {
+            background: #C8A97E;
+            color: #0A0A0A;
+            transform: translateY(-3px);
+        }
+
+        .premium-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(200, 169, 126, 0.1);
+            border: 1px solid rgba(200, 169, 126, 0.3);
+            border-radius: 50px;
+            color: #C8A97E;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ========================================
+           GLASS CARD EFFECT
+           ======================================== */
+        .glass-card {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(200, 169, 126, 0.2);
+            border-radius: 15px;
+        }
+
+        /* ========================================
+           REVEAL ANIMATIONS
+           ======================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 {
+            transition-delay: 0.1s;
+        }
+
+        .reveal-delay-2 {
+            transition-delay: 0.2s;
+        }
+
+        .reveal-delay-3 {
+            transition-delay: 0.3s;
+        }
+
+        .reveal-delay-4 {
+            transition-delay: 0.4s;
+        }
+
+        /* ========================================
+           ABOUT HERO SECTION
+           ======================================== */
+        .about-hero {
+            position: relative;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 120px 20px 80px;
+        }
+
+        .about-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("{% static 'home/about_us.jpg' %}") center/cover no-repeat;
+            z-index: 0;
+        }
+
+        .about-hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 50%, rgba(10,10,10,0.9) 100%);
+            z-index: 1;
+        }
+
+        .about-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .about-hero .premium-badge {
+            margin-bottom: 25px;
+        }
+
+        .about-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 25px;
+            line-height: 1.2;
+        }
+
+        .about-hero p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.25rem;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .about-hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ========================================
+           INTRODUCTION SECTION
+           ======================================== */
+        .about-intro {
+            background: #141414;
+            padding: 100px 0;
+        }
+
+        .about-intro-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .about-intro-image {
+            width: 100%;
+            height: 550px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-intro-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .about-intro-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(200,169,126,0.1), transparent);
+            z-index: 1;
+        }
+
+        .about-intro-content .premium-badge {
+            margin-bottom: 20px;
+        }
+
+        .about-intro-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 25px;
+            line-height: 1.2;
+        }
+
+        .about-intro-content p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.75);
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        /* ========================================
+           OUR APPROACH SECTION
+           ======================================== */
+        .our-approach {
+            background: #0A0A0A;
+            padding: 100px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .approach-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .approach-card {
+            background: rgba(20,20,20,0.6);
+            border: 1px solid rgba(200,169,126,0.2);
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .approach-card:hover {
+            transform: translateY(-10px);
+            border-color: #C8A97E;
+            background: rgba(20,20,20,0.9);
+            box-shadow: 0 20px 60px rgba(200,169,126,0.15);
+        }
+
+        .approach-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: #C8A97E;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .approach-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #C8A97E;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .approach-card p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           WHY SK AUTOHAUS SECTION
+           ======================================== */
+        .why-sk {
+            background: #141414;
+            padding: 100px 0;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .why-card {
+            background: rgba(10,10,10,0.6);
+            border: 1px solid rgba(200,169,126,0.15);
+            border-radius: 12px;
+            padding: 35px 30px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .why-card:hover {
+            border-color: #C8A97E;
+            background: rgba(10,10,10,0.8);
+            transform: translateY(-5px);
+        }
+
+        .why-card-icon {
+            font-size: 2.5rem;
+            color: #C8A97E;
+            margin-bottom: 20px;
+        }
+
+        .why-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .why-card p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           PHILOSOPHY SECTION
+           ======================================== */
+        .philosophy {
+            background: #0A0A0A;
+            padding: 100px 0;
+        }
+
+        .philosophy-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .philosophy-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #C8A97E;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .philosophy-content p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.8;
+            margin-bottom: 50px;
+        }
+
+        .philosophy-image {
+            width: 100%;
+            max-width: 1200px;
+            height: 500px;
+            margin: 0 auto;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .philosophy-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .philosophy-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(200,169,126,0.1), transparent);
+            border-radius: 15px;
+            z-index: 1;
+        }
+
+        /* ========================================
+           BEFORE & AFTER SECTION
+           ======================================== */
+        .before-after-section {
+            background: #141414;
+            padding: 100px 0;
+        }
+
+        .before-after-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .before-after-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .before-after-header p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.75);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .before-after-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .before-after-slider {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 15px;
+            border: 2px solid rgba(200,169,126,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .slider-images {
+            position: relative;
+            width: 100%;
+            height: 600px;
+        }
+
+        .slider-images img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .before-image {
+            z-index: 1;
+        }
+
+        .after-image {
+            z-index: 2;
+            clip-path: inset(0 50% 0 0);
+        }
+
+        .slider-handle {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            outline: none;
+            z-index: 3;
+            cursor: ew-resize;
+            -webkit-appearance: none;
+        }
+
+        .slider-handle::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 50px;
+            height: 50px;
+            background: #C8A97E;
+            border: 4px solid #fff;
+            border-radius: 50%;
+            cursor: ew-resize;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .slider-handle::-moz-range-thumb {
+            width: 50px;
+            height: 50px;
+            background: #C8A97E;
+            border: 4px solid #fff;
+            border-radius: 50%;
+            cursor: ew-resize;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .slider-labels {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 4;
+        }
+
+        .label-before,
+        .label-after {
+            padding: 10px 20px;
+            background: rgba(10,10,10,0.8);
+            color: #C8A97E;
+            font-weight: 600;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 1px solid rgba(200,169,126,0.3);
+        }
+
+        /* ========================================
+           ABOUT OUR OWNER SECTION
+           ======================================== */
+        .about-owner {
+            position: relative;
+            background: #0A0A0A;
+            padding: 100px 0;
+            overflow: hidden;
+        }
+
+        .about-owner::before {
+            content: '';
+            position: absolute;
+            width: 550px;
+            height: 550px;
+            top: 50%;
+            left: -300px;
+            transform: translateY(-50%);
+            background: radial-gradient(
+                circle,
+                rgba(200,169,126,0.08) 0%,
+                rgba(200,169,126,0.025) 45%,
+                transparent 70%
+            );
+            pointer-events: none;
+        }
+
+        .owner-grid {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+            gap: 70px;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .owner-image {
+            position: relative;
+            width: 100%;
+            height: 620px;
+            overflow: hidden;
+            border-radius: 18px;
+            border: 1px solid rgba(200,169,126,0.35);
+            background: #141414;
+            box-shadow:
+                0 30px 70px rgba(0,0,0,0.5),
+                0 0 35px rgba(200,169,126,0.06);
+        }
+
+        .owner-image img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .owner-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background:
+                linear-gradient(to top, rgba(10,10,10,0.6) 0%, transparent 40%),
+                linear-gradient(135deg, rgba(200,169,126,0.12), transparent 45%);
+            pointer-events: none;
+        }
+
+        .owner-image::after {
+            content: '';
+            position: absolute;
+            inset: 12px;
+            z-index: 2;
+            border: 1px solid rgba(200,169,126,0.12);
+            border-radius: 12px;
+            pointer-events: none;
+        }
+
+        .owner-content .premium-badge {
+            margin-bottom: 22px;
+        }
+
+        .owner-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.15;
+            margin-bottom: 28px;
+        }
+
+        .owner-content h2::after {
+            content: '';
+            display: block;
+            width: 65px;
+            height: 2px;
+            margin-top: 20px;
+            background: linear-gradient(90deg, #C8A97E, rgba(200,169,126,0));
+        }
+
+        .owner-biography p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 300;
+            line-height: 1.85;
+            color: rgba(255,255,255,0.72);
+            margin-bottom: 20px;
+        }
+
+        .owner-biography p:last-child {
+            margin-bottom: 0;
+        }
+
+        .owner-biography strong {
+            color: #D9C09B;
+            font-weight: 600;
+        }
+
+        .owner-quote {
+            position: relative;
+            margin-top: 34px;
+            padding: 32px 34px 28px 40px;
+            overflow: hidden;
+            background: linear-gradient(
+                135deg,
+                rgba(200,169,126,0.08),
+                rgba(20,20,20,0.65)
+            );
+            border-color: rgba(200,169,126,0.25);
+        }
+
+        .owner-quote-icon {
+            position: absolute;
+            top: 12px;
+            left: 18px;
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            line-height: 1;
+            color: rgba(200,169,126,0.18);
+            pointer-events: none;
+        }
+
+        .owner-quote blockquote {
+            position: relative;
+            z-index: 1;
+            margin: 0 0 18px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-style: italic;
+            font-weight: 500;
+            line-height: 1.6;
+            color: #f5f5f4;
+        }
+
+        .owner-quote-attribution {
+            position: relative;
+            z-index: 1;
+            font-family: 'Inter', sans-serif;
+            color: #C8A97E;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* ========================================
+           PROCESS SECTION
+           ======================================== */
+        .process {
+            background: #0A0A0A;
+            padding: 100px 0;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .process-step {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .process-step-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            color: rgba(200,169,126,0.2);
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+
+        .process-step h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #C8A97E;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .process-step p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           FINAL CTA SECTION
+           ======================================== */
+        .final-cta {
+            background: #141414;
+            padding: 100px 0;
+        }
+
+        .final-cta-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            background: rgba(200,169,126,0.05);
+            border: 2px solid rgba(200,169,126,0.2);
+            border-radius: 20px;
+            padding: 60px 40px;
+        }
+
+        .final-cta h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .final-cta p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 40px;
+        }
+
+        .final-cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ========================================
+           RESPONSIVE DESIGN
+           ======================================== */
+        @media (max-width: 1024px) {
+            .about-intro-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .about-intro-image {
+                height: 400px;
+            }
+
+            .philosophy-image {
+                height: 400px;
+            }
+
+            .owner-grid {
+                grid-template-columns: 1fr;
+                max-width: 800px;
+                gap: 50px;
+            }
+
+            .owner-image {
+                height: 650px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .about-hero {
+                padding: 100px 20px 60px;
+                min-height: 60vh;
+            }
+
+            .about-hero h1 {
+                font-size: 3rem;
+            }
+
+            .about-hero p {
+                font-size: 1.1rem;
+            }
+
+            .about-intro-content h2,
+            .section-header h2,
+            .philosophy-content h2,
+            .before-after-header h2,
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+
+            .about-intro,
+            .our-approach,
+            .why-sk,
+            .philosophy,
+            .before-after-section,
+            .process,
+            .about-owner,
+            .final-cta {
+                padding: 60px 0;
+            }
+
+            .approach-grid,
+            .why-grid,
+            .process-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .philosophy-image {
+                height: 300px;
+            }
+
+            .slider-images {
+                height: 400px;
+            }
+
+            .final-cta-content {
+                padding: 40px 25px;
+            }
+
+            .about-hero-buttons,
+            .final-cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn-gold,
+            .btn-outline-gold {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .owner-grid {
+                gap: 40px;
+            }
+
+            .owner-image {
+                height: 550px;
+            }
+
+            .owner-content h2 {
+                font-size: 2.5rem;
+            }
+
+            .owner-quote {
+                padding: 30px 25px 26px 32px;
+            }
+
+            .owner-quote blockquote {
+                font-size: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .about-hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .about-hero p {
+                font-size: 1rem;
+            }
+
+            .section-header h2,
+            .about-intro-content h2,
+            .philosophy-content h2,
+            .before-after-header h2,
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+
+            .philosophy-content p {
+                font-size: 1rem;
+            }
+
+            .approach-card,
+            .why-card {
+                padding: 30px 20px;
+            }
+
+            .approach-number {
+                font-size: 2.5rem;
+            }
+
+            .approach-card h3 {
+                font-size: 1.3rem;
+            }
+
+            .why-card h3 {
+                font-size: 1.2rem;
+            }
+
+            .why-card-icon {
+                font-size: 2rem;
+            }
+
+            .process-step {
+                padding: 20px 15px;
+            }
+
+            .process-step-number {
+                font-size: 2.5rem;
+            }
+
+            .process-step h3 {
+                font-size: 1.2rem;
+            }
+
+            .final-cta h2 {
+                font-size: 1.8rem;
+            }
+
+            .final-cta p {
+                font-size: 1rem;
+            }
+
+            .final-cta-content {
+                padding: 35px 20px;
+            }
+
+            .philosophy-image {
+                height: 250px;
+            }
+
+            .about-intro-image {
+                height: 300px;
+            }
+
+            .slider-images {
+                height: 300px;
+            }
+
+            .slider-labels {
+                left: 10px;
+                right: 10px;
+                top: 10px;
+            }
+
+            .label-before,
+            .label-after {
+                padding: 8px 15px;
+                font-size: 0.75rem;
+            }
+
+            .owner-image {
+                height: 430px;
+                border-radius: 15px;
+            }
+
+            .owner-content h2 {
+                font-size: 2rem;
+                margin-bottom: 24px;
+            }
+
+            .owner-content .premium-badge {
+                font-size: 0.7rem;
+                letter-spacing: 1.4px;
+                padding: 8px 14px;
+            }
+
+            .owner-biography p {
+                font-size: 1rem;
+                line-height: 1.75;
+            }
+
+            .owner-quote {
+                margin-top: 28px;
+                padding: 28px 22px 24px 28px;
+            }
+
+            .owner-quote-icon {
+                font-size: 4rem;
+            }
+
+            .owner-quote blockquote {
+                font-size: 1.1rem;
+                line-height: 1.6;
+            }
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- ========== NAVIGATION ========== -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500" style="background: transparent; border-bottom: 1px solid transparent;">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="{% url 'fnhome' %}" class="flex items-center gap-3 group">
+                <img src="{% static 'home/autohaus_logo.png' %}" alt="SK AutoHaus Logo" class="logo-img rounded-sm">
+                <span class="font-serif text-xl font-semibold tracking-tight text-white">SK AutoHaus</span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <div class="hidden lg:flex items-center gap-10">
+                <a href="{% url 'fnhome' %}" class="text-sm font-medium text-stone-400 hover:text-white transition-colors duration-300">Home</a>
+                <a href="{% url 'fnservice' %}" class="text-sm font-medium text-stone-400 hover:text-white transition-colors duration-300">Services</a>
+                <a href="{% url 'fnaboutus' %}" class="text-sm font-medium text-white transition-colors duration-300">About Us</a>
+                <a href="https://wa.me/919349777444?text=Hello%20SK%20AutoHaus%2C%20I%20would%20like%20to%20know%20more%20about%20your%20services." class="text-sm font-medium text-stone-400 hover:text-white transition-colors duration-300">Contact</a>
+            </div>
+
+            <!-- CTA Button Space - hidden but preserves navbar layout -->
+            <div class="hidden lg:block invisible">
+                <a href="#" class="btn-gold inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold">
+                    Book a Service
+                    <iconify-icon icon="lucide:arrow-right" width="15"></iconify-icon>
+                </a>
+            </div>
+
+            <!-- Mobile Hamburger -->
+            <button id="menuToggle" class="lg:hidden flex flex-col gap-1.5 p-2" aria-label="Menu">
+                <span class="block w-6 h-0.5 bg-white transition-all duration-300 origin-center" id="hamLine1"></span>
+                <span class="block w-6 h-0.5 bg-white transition-all duration-300" id="hamLine2"></span>
+                <span class="block w-4 h-0.5 bg-white transition-all duration-300 origin-center" id="hamLine3"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ========== MOBILE MENU ========== -->
+    <div id="mobileOverlay" class="mobile-overlay fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"></div>
+    <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 bottom-0 z-50 w-80 max-w-[85vw] bg-brand-charcoal border-l border-white/5 flex flex-col">
+        <div class="flex items-center justify-between px-6 h-20 border-b border-white/5">
+            <span class="font-serif text-lg font-semibold text-white">SK AutoHaus</span>
+            <button id="menuClose" class="p-2 text-stone-400 hover:text-white transition-colors">
+                <iconify-icon icon="lucide:x" width="22"></iconify-icon>
+            </button>
+        </div>
+        <div class="flex flex-col py-8 px-6 gap-1">
+            <a href="{% url 'fnhome' %}" class="mobile-nav-link block py-3 px-4 text-base font-medium text-stone-400 hover:text-white hover:bg-white/5 rounded-lg transition-all">Home</a>
+            <a href="{% url 'fnservice' %}" class="mobile-nav-link block py-3 px-4 text-base font-medium text-stone-400 hover:text-white hover:bg-white/5 rounded-lg transition-all">Services</a>
+            <a href="{% url 'fnaboutus' %}" class="mobile-nav-link block py-3 px-4 text-base font-medium text-white bg-white/5 rounded-lg transition-all">About Us</a>
+            <a href="https://wa.me/919349777444?text=Hello%20SK%20AutoHaus%2C%20I%20would%20like%20to%20know%20more%20about%20your%20services." class="mobile-nav-link block py-3 px-4 text-base font-medium text-stone-400 hover:text-white hover:bg-white/5 rounded-lg transition-all">Contact</a>
+        </div>
+    </div>
+
+    <!-- ========== HERO SECTION ========== -->
+    <section class="about-hero">
+        <div class="about-hero-content">
+            <div class="premium-badge">ABOUT SK AUTOHAUS</div>
+            <h1>Built For People Who<br>Care About Their Cars.</h1>
+            <p>Professional automotive care focused on quality, precision and the details that make a difference.</p>
+            <div class="about-hero-buttons">
+                <a href="{% url 'fnservice' %}" class="btn-gold">Explore Our Services</a>
+                <a href="https://wa.me/919349777444?text=Hello%20SK%20AutoHaus%2C%20I%20would%20like%20to%20know%20more%20about%20your%20services." class="btn-outline-gold">Contact Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== INTRODUCTION SECTION ========== -->
+    <section class="about-intro">
+        <div class="about-intro-grid">
+            <div class="about-intro-image">
+                <img src="{% static 'aboutus/morethana_wash.jpg' %}" alt="More Than A Wash">
+            </div>
+            <div class="about-intro-content reveal reveal-delay-1">
+                <div class="premium-badge">ABOUT US</div>
+                <h2>More Than Just A Wash.</h2>
+                <p>SK AutoHaus is focused on delivering professional automotive cleaning, detailing and protection services with attention to quality, precision and customer satisfaction.</p>
+                <p>From everyday vehicle care to advanced paint protection, our goal is simple — to help every vehicle look cleaner, sharper and better cared for.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== OUR APPROACH SECTION ========== -->
+    <section class="our-approach">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Our Approach</h2>
+            </div>
+            <div class="approach-grid">
+                <div class="approach-card glass-card reveal reveal-delay-1">
+                    <div class="approach-number">01</div>
+                    <h3>CARE</h3>
+                    <p>Every vehicle receives careful attention from start to finish.</p>
+                </div>
+                <div class="approach-card glass-card reveal reveal-delay-2">
+                    <div class="approach-number">02</div>
+                    <h3>QUALITY</h3>
+                    <p>We focus on quality products and professional service.</p>
+                </div>
+                <div class="approach-card glass-card reveal reveal-delay-3">
+                    <div class="approach-number">03</div>
+                    <h3>PRECISION</h3>
+                    <p>Attention to detail is at the heart of everything we do.</p>
+                </div>
+                <div class="approach-card glass-card reveal reveal-delay-4">
+                    <div class="approach-number">04</div>
+                    <h3>PROTECTION</h3>
+                    <p>Advanced treatments designed to help maintain your vehicle's appearance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== WHY SK AUTOHAUS SECTION ========== -->
+    <section class="why-sk">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Why SK AutoHaus?</h2>
+            </div>
+            <div class="why-grid">
+                <div class="why-card reveal reveal-delay-1">
+                    <div class="why-card-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Customer First</h3>
+                    <p>Clear communication and a service experience built around your vehicle.</p>
+                </div>
+                <div class="why-card reveal reveal-delay-2">
+                    <div class="why-card-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3>Premium Products</h3>
+                    <p>Quality-focused products selected for professional automotive care.</p>
+                </div>
+                <div class="why-card reveal reveal-delay-3">
+                    <div class="why-card-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Attention to Detail</h3>
+                    <p>Small details make a big difference in the final finish.</p>
+                </div>
+                <div class="why-card reveal reveal-delay-4">
+                    <div class="why-card-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>Modern Techniques</h3>
+                    <p>Modern approaches to cleaning, detailing and vehicle protection.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PHILOSOPHY SECTION ========== -->
+    <section class="philosophy">
+        <div class="philosophy-content reveal">
+            <h2>Every Detail Matters.</h2>
+            <p>We believe premium vehicle care is not only about the final shine. It is about the process behind it — careful preparation, appropriate products, proper techniques and attention to detail.</p>
+            <div class="philosophy-image">
+                <img src="{% static 'aboutus/car_detailng.jpg' %}" alt="Our Philosophy">
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== BEFORE & AFTER SECTION ========== -->
+    <section class="before-after-section">
+        <div class="container">
+            <div class="before-after-header reveal">
+                <h2>See The Difference.</h2>
+                <p>Professional detailing is about more than cleaning. It's about restoring the way your vehicle should look.</p>
+            </div>
+
+            <div class="before-after-container reveal reveal-delay-1">
+                <div class="before-after-slider">
+                    <div class="slider-images">
+                        <img src="{% static 'aboutus/polo_after.png' %}" alt="Before Detailing" class="before-image">
+                        <img src="{% static 'aboutus/polo_before.png' %}" alt="After Detailing" class="after-image">
+                    </div>
+                    <input type="range" min="0" max="100" value="50" class="slider-handle" id="beforeAfterSlider">
+                    <div class="slider-labels">
+                        <span class="label-before">BEFORE</span>
+                        <span class="label-after">AFTER</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ABOUT OUR OWNER SECTION ========== -->
+    <section class="about-owner">
+        <div class="owner-grid">
+
+            <!-- Owner Portrait -->
+            <div class="text-center">
+                <div class="relative rounded-2xl overflow-hidden">
+                    <img src="{% static 'home/owner_sk.jpg' %}"
+                        alt="Dr Aditya Krishnan"
+                        class="w-full h-full object-cover">
+                </div>
+                 <h3 class="font-serif text-2xl font-semibold text-white mt-5">
+                    Dr Aditya Krishnan
+                </h3>
+
+                <p class="text-sm text-brand-gold mt-1">
+                    Founder & Owner
+                </p>
+            </div>
+
+            <!-- Owner Content -->
+            <div class="owner-content">
+                <div class="premium-badge reveal">
+                    THE PERSON BEHIND SK AUTOHAUS
+                </div>
+
+                <h2 class="reveal reveal-delay-1">Meet Our Owner</h2>
+
+                <div class="owner-biography reveal reveal-delay-2">
+                    <p>
+                        SK AutoHaus is built on a genuine passion for automobiles, practical
+                        industry experience and a belief that quality automotive care comes
+                        down to attention to detail. That approach shapes how every vehicle
+                        is treated and how every customer is served.
+                    </p>
+
+                    <p>
+                        The owner comes from the family business
+                        <strong>SK Tyres, Kollam</strong>, a background that has provided
+                        valuable experience and an understanding of the automotive industry,
+                        customer relationships and the importance of proper vehicle care.
+                    </p>
+
+                    <p>
+                        With SK AutoHaus, that foundation is carried forward through a
+                        commitment to professional service, thoughtful vehicle care and
+                        consistently maintaining the standards customers expect when they
+                        entrust their vehicles to the team.
+                    </p>
+                </div>
+
+                <!-- Quote -->
+                <div class="owner-quote glass-card reveal reveal-delay-3">
+                    <span class="owner-quote-icon" aria-hidden="true">“</span>
+
+                    <blockquote>
+                        “If you don't find a way to make money while you sleep,
+                        you will work until you die.”
+                    </blockquote>
+
+                    <div class="owner-quote-attribution">
+                        — Founder, SK AutoHaus
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========== FINAL CTA SECTION ========== -->
+    <section class="final-cta">
+        <div class="container">
+            <div class="final-cta-content reveal">
+                <h2>Your Car Deserves Better Care.</h2>
+                <p>Explore our services or book your next visit with SK AutoHaus.</p>
+                <div class="final-cta-buttons">
+                    <a href="{% url 'fnservice' %}" class="btn-gold">Explore Services</a>
+                    <a href="{% url 'fnbooking' %}" class="btn-outline-gold">Book a Service</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="relative bg-brand-dark border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 py-16">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-10">
+
+                <!-- Brand -->
+                <div class="sm:col-span-2 lg:col-span-1">
+                    <div class="flex items-center gap-3 mb-5">
+                        <img src="{% static 'home/autohaus_logo.png' %}" alt="SK AutoHaus" class="h-9 w-auto object-contain rounded-sm">
+                        <span class="font-serif text-lg font-semibold text-white">SK AutoHaus</span>
+                    </div>
+                    <p class="text-sm text-stone-400 font-light leading-relaxed mb-6">Premium Car Wash & Auto Care</p>
+                    <div class="flex items-center gap-3">
+                        <a href="https://www.instagram.com/in.saiyan.photographer?igsh=MWFqNGl6cHh5djU3ag==" class="w-9 h-9 rounded-lg bg-white/5 hover:bg-brand-gold/20 flex items-center justify-center transition-colors group">
+                            <iconify-icon icon="lucide:instagram" width="16" class="text-stone-500 group-hover:text-brand-gold transition-colors"></iconify-icon>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-lg bg-white/5 hover:bg-brand-gold/20 flex items-center justify-center transition-colors group">
+                            <iconify-icon icon="lucide:facebook" width="16" class="text-stone-500 group-hover:text-brand-gold transition-colors"></iconify-icon>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-lg bg-white/5 hover:bg-brand-gold/20 flex items-center justify-center transition-colors group">
+                            <iconify-icon icon="simple-icons:x" width="16" class="text-stone-500 group-hover:text-brand-gold transition-colors"></iconify-icon>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-xs font-semibold text-stone-300 uppercase tracking-widest mb-5">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="{% url 'fnhome' %}" class="text-sm text-stone-400 hover:text-white transition-colors font-light">Home</a></li>
+                        <li><a href="{% url 'fnservice' %}" class="text-sm text-stone-400 hover:text-white transition-colors font-light">Services</a></li>
+                        <li><a href="{% url 'fnaboutus' %}" class="text-sm text-stone-400 hover:text-white transition-colors font-light">About Us</a></li>
+                        <li><a href="https://wa.me/919349777444?text=Hello%20SK%20AutoHaus%2C%20I%20would%20like%20to%20know%20more%20about%20your%20services." class="text-sm text-stone-400 hover:text-white transition-colors font-light">Contact</a></li>
+                        <li><a href="{% url 'fnbooking' %}" class="text-sm text-stone-400 hover:text-white transition-colors font-light">Book a Service</a></li>
+                    </ul>
+                </div>
+
+                <!-- Services -->
+                <div>
+                    <h4 class="text-xs font-semibold text-stone-300 uppercase tracking-widest mb-5">Services</h4>
+                    <ul class="space-y-3">
+                        <li><a href="{% url 'fnservice' %}#normal-body-wash" class="text-sm text-stone-400 hover:text-white transition-colors font-light">Normal Body Wash</a></li>
+                        <li><a href="{% url 'fnservice' %}#premium-wash" class="text-sm text-stone-400 hover:text-white transition-colors font-light">Premium Wash</a></li>
+                        <li><a href="{% url 'fnservice' %}#ceramic-coating" class="text-sm text-stone-400 hover:text-white transition-colors font-light">Graphene / Ceramic Coating</a></li>
+                        <li><a href="{% url 'fnservice' %}#decarbonizing" class="text-sm text-stone-400 hover:text-white transition-colors font-light">Decarbonizing</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-xs font-semibold text-stone-300 uppercase tracking-widest mb-5">Contact</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-2 text-sm text-stone-400 font-light">
+                            <iconify-icon icon="lucide:phone" width="14" class="text-brand-gold/70"></iconify-icon>
+                            +91 93497 77444
+                        </li>
+                        <li class="flex items-center gap-2 text-sm text-stone-400 font-light">
+                            <iconify-icon icon="lucide:mail" width="14" class="text-brand-gold/70"></iconify-icon>
+                            info@skautohaus.com
+                        </li>
+                        <li class="flex items-center gap-2 text-sm text-stone-400 font-light">
+                            <iconify-icon icon="lucide:map-pin" width="14" class="text-brand-gold/70"></iconify-icon>
+                            Kollam, Kerala
+                        </li>
+                        <li class="flex items-center gap-2 text-sm text-stone-400 font-light">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3941.692101702156!2d76.5581765747745!3d8.908189690868875!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b05fdcfdbd5a4f5%3A0xbebb45883bbfb876!2sS%20K%20TYRES!5e0!3m2!1sen!2sin!4v1786874159228!5m2!1sen!2sin" width="500" height="150" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="border-t border-white/5">
+            <div class="max-w-7xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-xs text-stone-500 font-light">© 2026 SK AutoHaus. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== JAVASCRIPT ========== -->
+    <script>
+        // ===== NAVBAR SCROLL EFFECT =====
+        const navbar = document.getElementById('navbar');
+
+        function onNavScroll() {
+            if (window.scrollY > 80) {
+                navbar.classList.add('nav-solid');
+            } else {
+                navbar.classList.remove('nav-solid');
+            }
+        }
+
+        window.addEventListener('scroll', onNavScroll, { passive: true });
+        onNavScroll();
+
+        // ===== MOBILE MENU =====
+        const menuToggle = document.getElementById('menuToggle');
+        const menuClose = document.getElementById('menuClose');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileOverlay = document.getElementById('mobileOverlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+        function openMenu() {
+            mobileMenu.classList.add('open');
+            mobileOverlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('open');
+            mobileOverlay.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        if (menuToggle) menuToggle.addEventListener('click', openMenu);
+        if (menuClose) menuClose.addEventListener('click', closeMobileMenu);
+        if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileMenu);
+        mobileNavLinks.forEach(link => link.addEventListener('click', closeMobileMenu));
+
+        // ===== REVEAL ANIMATIONS ON SCROLL =====
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            revealElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const revealPoint = 100;
+
+                if (elementTop < windowHeight - revealPoint) {
+                    element.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll();
+
+        // ===== BEFORE/AFTER SLIDER =====
+        const slider = document.getElementById('beforeAfterSlider');
+        const afterImage = document.querySelector('.after-image');
+
+        if (slider && afterImage) {
+            slider.addEventListener('input', (e) => {
+                const value = e.target.value;
+                afterImage.style.clipPath = `inset(0 ${100 - value}% 0 0)`;
+            });
+        }
+
+        // ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
+
+

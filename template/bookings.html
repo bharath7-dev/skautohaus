@@ -1,0 +1,981 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bookings - SK AutoHaus</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0A0A0A;
+            --bg-charcoal: #141414;
+            --bg-card: #1A1A1A;
+            --gold: #C8A97E;
+            --gold-light: #D9C09B;
+            --gold-dark: #A68B5B;
+            --text-primary: #fafaf9;
+            --text-secondary: #a8a29e;
+            --border: rgba(200, 169, 126, 0.15);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .admin-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 260px;
+            background: var(--bg-charcoal);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 24px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .sidebar-logo img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+        }
+
+        .sidebar-logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 20px 0;
+        }
+
+        .nav-section {
+            margin-bottom: 24px;
+        }
+
+        .nav-section-title {
+            padding: 0 20px 8px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover {
+            background: rgba(200, 169, 126, 0.1);
+            color: var(--gold);
+        }
+
+        .nav-link.active {
+            background: rgba(200, 169, 126, 0.12);
+            color: var(--gold);
+            border-right: 3px solid var(--gold);
+        }
+
+        .nav-link i {
+            width: 20px;
+            font-size: 1rem;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .logout {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--gold);
+            border-radius: 8px;
+            color: var(--gold);
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+
+        .logout:hover {
+            background: var(--gold);
+            color: var(--bg-dark);
+        }
+
+        /* MAIN */
+
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+        }
+
+        .top-bar {
+            background: var(--bg-charcoal);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .top-bar-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--gold);
+            color: var(--bg-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .admin-name {
+            font-size: 0.9rem;
+        }
+
+        /* CONTENT */
+
+        .content {
+            padding: 32px 24px;
+        }
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* STATS */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .stat {
+            background: var(--bg-charcoal);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        /* BOOKING CARD */
+
+        .booking-section {
+            background: var(--bg-charcoal);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 22px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .booking-count {
+            color: var(--text-secondary);
+            font-size: .85rem;
+        }
+
+        /* TABLE */
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        thead {
+            background: var(--bg-card);
+        }
+
+        th {
+            padding: 14px 16px;
+            text-align: left;
+            color: var(--text-secondary);
+            font-size: .75rem;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: .88rem;
+            white-space: nowrap;
+        }
+
+        tbody tr:hover {
+            background: var(--bg-card);
+        }
+
+        .booking-id {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .customer-name {
+            font-weight: 600;
+        }
+
+        .secondary {
+            color: var(--text-secondary);
+            font-size: .78rem;
+            margin-top: 3px;
+        }
+
+        /* STATUS */
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: .7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+        }
+
+        .badge-pending {
+            background: rgba(245,158,11,.15);
+            color: var(--warning);
+        }
+
+        .badge-confirmed {
+            background: rgba(59,130,246,.15);
+            color: var(--info);
+        }
+
+        .badge-completed {
+            background: rgba(16,185,129,.15);
+            color: var(--success);
+        }
+
+        .badge-cancelled {
+            background: rgba(239,68,68,.15);
+            color: var(--danger);
+        }
+
+        /* VIEW BUTTON */
+
+        .view-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 13px;
+            border: 1px solid var(--gold);
+            border-radius: 7px;
+            color: var(--gold);
+            text-decoration: none;
+            font-size: .78rem;
+            transition: .2s;
+        }
+
+        .view-btn:hover {
+            background: var(--gold);
+            color: var(--bg-dark);
+        }
+
+        /* EMPTY */
+
+        .empty {
+            text-align: center;
+            padding: 70px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty i {
+            font-size: 3rem;
+            color: var(--gold);
+            opacity: .5;
+            margin-bottom: 18px;
+        }
+
+        .empty h3 {
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        /* MOBILE */
+
+        .mobile-menu {
+            display: none;
+        }
+
+        @media (max-width: 1000px) {
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .mobile-menu {
+                display: block;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.3rem;
+                cursor: pointer;
+                margin-right: 15px;
+            }
+
+            .top-bar {
+                justify-content: flex-start;
+            }
+
+            .top-bar-title {
+                font-size: 1.25rem;
+            }
+
+            .admin-user {
+                margin-left: auto;
+            }
+
+            .admin-name {
+                display: none;
+            }
+
+            .content {
+                padding: 24px 15px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="admin-wrapper">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-header">
+            <a href="{% url 'fndashboard' %}" class="sidebar-logo">
+                <img src="{% static 'home/autohaus_logo.png' %}"
+                     alt="SK AutoHaus">
+
+                <span class="sidebar-logo-text">
+                    SK AutoHaus
+                </span>
+            </a>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-section">
+
+                <div class="nav-section-title">
+                    Main
+                </div>
+
+                <!-- Dashboard -->
+
+                <a href="{% url 'fndashboard' %}" class="nav-link">
+
+                    <i class="fas fa-chart-line"></i>
+
+                    <span>
+                        Dashboard
+                    </span>
+
+                </a>
+
+                <!-- Bookings -->
+
+                <a href="{% url 'bookings' %}"
+                   class="nav-link active">
+
+                    <i class="fas fa-calendar-check"></i>
+
+                    <span>
+                        Bookings
+                    </span>
+
+                </a>
+
+                <!-- Calendar -->
+
+                <a href="#" class="nav-link">
+
+                    <i class="fas fa-calendar-alt"></i>
+
+                    <span>
+                        Calendar
+                    </span>
+
+                </a>
+
+            </div>
+
+
+            <div class="nav-section">
+
+                <div class="nav-section-title">
+                    Management
+                </div>
+
+                <a href="#" class="nav-link">
+
+                    <i class="fas fa-tools"></i>
+
+                    <span>
+                        Services
+                    </span>
+
+                </a>
+
+                <a href="#" class="nav-link">
+
+                    <i class="fas fa-users"></i>
+
+                    <span>
+                        Customers
+                    </span>
+
+                </a>
+
+                <a href="#" class="nav-link">
+
+                    <i class="fas fa-cog"></i>
+
+                    <span>
+                        Business Settings
+                    </span>
+
+                </a>
+
+            </div>
+
+
+            <div class="nav-section">
+
+                <div class="nav-section-title">
+                    Site
+                </div>
+
+                <a href="{% url 'fnhome' %}" class="nav-link">
+
+                    <i class="fas fa-globe"></i>
+
+                    <span>
+                        View Website
+                    </span>
+
+                </a>
+
+            </div>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <a href="/admin/logout/" class="logout">
+
+                <i class="fas fa-sign-out-alt"></i>
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+
+        <div class="top-bar">
+
+            <button class="mobile-menu"
+                    id="mobileMenu">
+
+                <i class="fas fa-bars"></i>
+
+            </button>
+
+            <h1 class="top-bar-title">
+                Bookings
+            </h1>
+
+            <div class="admin-user">
+
+                <div class="admin-avatar">
+                    {{ user.username|slice:":1"|upper }}
+                </div>
+
+                <span class="admin-name">
+                    {{ user.username }}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONTENT -->
+
+        <div class="content">
+
+            <div class="page-header">
+
+                <h2 class="page-title">
+                    All Bookings
+                </h2>
+
+                <p class="page-subtitle">
+                    Manage and review all SK AutoHaus service appointments.
+                </p>
+
+            </div>
+
+
+            <!-- STATS -->
+
+            <div class="stats">
+
+                <div class="stat">
+
+                    <div class="stat-label">
+                        Total Bookings
+                    </div>
+
+                    <div class="stat-value">
+                        {{ bookings|length }}
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-label">
+                        Pending
+                    </div>
+
+                    <div class="stat-value">
+                        {{ pending_bookings }}
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-label">
+                        Confirmed
+                    </div>
+
+                    <div class="stat-value">
+                        {{ confirmed_bookings }}
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-label">
+                        Cancelled
+                    </div>
+
+                    <div class="stat-value">
+                        {{ cancelled_bookings }}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- BOOKINGS TABLE -->
+
+            <div class="booking-section">
+
+                <div class="section-header">
+
+                    <h3 class="section-title">
+                        Bookings
+                    </h3>
+
+                    <span class="booking-count">
+                        {{ bookings|length }} booking{{ bookings|length|pluralize }}
+                    </span>
+
+                </div>
+
+
+                {% if bookings %}
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Booking ID
+                                </th>
+
+                                <th>
+                                    Customer
+                                </th>
+
+                                <th>
+                                    Phone
+                                </th>
+
+                                <th>
+                                    Vehicle
+                                </th>
+
+                                <th>
+                                    Service
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Time
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                        {% for booking in bookings %}
+
+                            <tr>
+
+                                <!-- Booking ID -->
+
+                                <td>
+
+                                    <span class="booking-id">
+                                        {{ booking.booking_id }}
+                                    </span>
+
+                                </td>
+
+
+                                <!-- Customer -->
+
+                                <td>
+
+                                    <div class="customer-name">
+                                        {{ booking.customer_name }}
+                                    </div>
+
+                                    {% if booking.customer_email %}
+
+                                    <div class="secondary">
+                                        {{ booking.customer_email }}
+                                    </div>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- Phone -->
+
+                                <td>
+                                    {{ booking.customer_phone }}
+                                </td>
+
+
+                                <!-- Vehicle -->
+
+                                <td>
+
+                                    <div>
+                                        {{ booking.vehicle_make }}
+                                        {{ booking.vehicle_model }}
+                                    </div>
+
+                                    {% if booking.vehicle_number %}
+
+                                    <div class="secondary">
+                                        {{ booking.vehicle_number }}
+                                    </div>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- Service -->
+
+                                <td>
+                                    {{ booking.service.name }}
+                                </td>
+
+
+                                <!-- Date -->
+
+                                <td>
+                                    {{ booking.booking_date|date:"d M Y" }}
+                                </td>
+
+
+                                <!-- Time -->
+
+                                <td>
+                                    {{ booking.booking_time|time:"h:i A" }}
+                                </td>
+
+
+                                <!-- Status -->
+
+                                <td>
+
+                                    <span class="badge badge-{{ booking.status }}">
+
+                                        {{ booking.get_status_display }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- Action -->
+
+                                <td>
+
+                                    <a href="{% url 'admin_booking_detail' booking.id %}"
+                                       class="view-btn">
+
+                                        <i class="fas fa-eye"></i>
+
+                                        View
+
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                {% else %}
+
+                <div class="empty">
+
+                    <i class="fas fa-calendar-xmark"></i>
+
+                    <h3>
+                        No Bookings Yet
+                    </h3>
+
+                    <p>
+                        Customer bookings will appear here when they make an appointment.
+                    </p>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    const mobileMenu =
+        document.getElementById("mobileMenu");
+
+    const sidebar =
+        document.getElementById("sidebar");
+
+
+    mobileMenu.addEventListener("click", function () {
+
+        if (sidebar.style.transform === "translateX(0px)") {
+
+            sidebar.style.transform =
+                "translateX(-100%)";
+
+        } else {
+
+            sidebar.style.transform =
+                "translateX(0)";
+
+        }
+
+    });
+
+</script>
+
+</body>
+</html>
